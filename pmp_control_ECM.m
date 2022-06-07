@@ -82,7 +82,7 @@ t_ind = ((minutes(t_vec(2:3) - t_vec(1)))/15) + 1;
 
 %% Select load and PV data
 
-ld1 = ld(t_ind(1):t_ind(2))/5;
+ld1 = ld(t_ind(1):t_ind(2))/2;
 pv1 = pv(t_ind(1):t_ind(2));
 dt1 = yr_dt(t_ind(1):t_ind(2));
 
@@ -97,13 +97,14 @@ ylabel("Power [kWac]")
 legend("Load", "Solar PV", "location", "best", "interpreter", "latex")
 % legend("Load Consumption", "Solar PV Generation", "location", "bestoutside")
 set(gca, "FontSize", 28)
+set(gca,'TickLabelInterpreter','latex');
 
 %% 1st simple case: Fixed ESS size; fixed week, fixed initial costate; fixed intial SOC
 % Get resulting curtailed PV, DG generation, final energy at optimal
 % control given costate
 
 % Costate
-lambda_init = -50;
+lambda_init = -80;
 
 [u_opt, x, lambda] = mgpmpecm(length(ld1), pv1, ld1, x_max, x_min, LIB_INV_SIZE_KW, LIB_EFF_CHG, ...
     socdot, P_batt_range_socdot, SOC_range_socdot, ...
@@ -115,16 +116,28 @@ lambda_init = -50;
 dg1 = max(ld1-pv1-u_opt,0);
 pv_curt = max(pv1-ld1-u_opt,0);
 x_f = x(end);
-
-% Plot Optimal Dispatch!!
-hFig = figure(3);
-set(hFig, 'Position', [100 100 2000 2200])
-subplot(2,2,1)
+%%
+hFig = figure();
+set(hFig, 'Position', [100 100 1000 1000])
 hold on
 plot(dt1, ld1, 'LineWidth', 2)
 plot(dt1, pv1, 'LineWidth', 2)
-plot(dt1, u_opt, 'LineWidth', 2)
+plot(dt1, u_opt, 'LineWidth', 3)
 plot(dt1, dg1, 'LineWidth', 2)
+ylabel("Power [kWAC]")
+legend("Load", "PV", "Optimal LIB Dispatch", "Diesel Genset", "location", "eastoutside", 'interpreter', 'latex')
+set(gca, "FontSize", 28)
+set(gca,'TickLabelInterpreter','latex');
+
+%% Plot Optimal Dispatch!!
+hFig = figure();
+set(hFig, 'Position', [100 100 2000 2200])
+subplot(2,2,1)
+hold on
+plot(dt1, ld1, 'LineWidth', 1)
+plot(dt1, pv1, 'LineWidth', 1)
+plot(dt1, u_opt, 'LineWidth', 3)
+plot(dt1, dg1, 'LineWidth', 1)
 ylabel("Power [kWAC]")
 legend("Load", "PV", "Optimal ESS Dispatch", "Diesel Genset", "location", "best")
 set(gca, "FontSize", 20)

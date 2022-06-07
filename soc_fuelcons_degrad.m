@@ -269,7 +269,7 @@ markers = {'s', 'o', 'd', '^'};
 hFig = figure(5);
 set(hFig, 'Position', [100 100 600 500])
 hold on
-for j = [1 3]
+for j = 1:4
     fuel_pct = L_pcts{j};
     cap_pct = cap_pcts{j};
     for i = inds
@@ -285,10 +285,12 @@ ylabel("Reduction in Cell Capacity [\%]")
 % legend({"Phase 1" + newline + "$SOC(t_f) =0.2$", '','','','','','','','','',"$SOC(t_f) =0.45$", ...
 %     "Phase 3" + newline + "$SOC(t_f) =0.2$", '','','','','','','','','',"$SOC(t_f) =0.45$"}, 'location', 'east', 'interpreter', 'latex')
 legend({"Phase 1", '','','','','','','','','','', ...
-    "Phase 3", '','','','','','','','','',""}, 'location', 'east', 'interpreter', 'latex')
+    "Phase 2", '','','','','','','','','','', ...
+    "Phase 3", '','','','','','','','','','', ...
+    "Phase 4", '','','','','','','','','',""}, 'location', 'eastoutside', 'interpreter', 'latex')
 % legend('$SOC(t_f) = 20\%$', '','','','','','','','','','','','', ...
 %     '','','','','','','','','','','','','','$SOC(t_f) = 85\%$', 'location', 'best', 'interpreter', 'latex')
-set(gca, "FontSize", 28)
+set(gca, "FontSize", 26)
 set(gca,'TickLabelInterpreter','latex')
 box on
 
