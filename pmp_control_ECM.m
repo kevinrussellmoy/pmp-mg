@@ -118,14 +118,16 @@ pv_curt = max(pv1-ld1-u_opt,0);
 x_f = x(end);
 %%
 hFig = figure();
-set(hFig, 'Position', [100 100 1000 1000])
+% set(hFig, 'Position', [100 100 1000 500])
+set(hFig, 'Position', [100 100 600 600])
 hold on
 plot(dt1, ld1, 'LineWidth', 2)
 plot(dt1, pv1, 'LineWidth', 2)
-plot(dt1, u_opt, 'LineWidth', 3)
 plot(dt1, dg1, 'LineWidth', 2)
+plot(dt1, u_opt, 'LineWidth', 5, 'color', rgb('green'))
 ylabel("Power [kWAC]")
-legend("Load", "PV", "Optimal LIB Dispatch", "Diesel Genset", "location", "eastoutside", 'interpreter', 'latex')
+% legend("Load", "PV", "Diesel Genset", "Optimal LIB Dispatch", "location", "eastoutside", 'interpreter', 'latex')
+legend("Load", "PV", "Diesel Genset", "Optimal LIB Dispatch", "location", "southoutside", 'interpreter', 'latex')
 set(gca, "FontSize", 28)
 set(gca,'TickLabelInterpreter','latex');
 
@@ -136,7 +138,7 @@ subplot(2,2,1)
 hold on
 plot(dt1, ld1, 'LineWidth', 1)
 plot(dt1, pv1, 'LineWidth', 1)
-plot(dt1, u_opt, 'LineWidth', 3)
+plot(dt1, u_opt, 'LineWidth', 5, 'color', rgb('green'))
 plot(dt1, dg1, 'LineWidth', 1)
 ylabel("Power [kWAC]")
 legend("Load", "PV", "Optimal ESS Dispatch", "Diesel Genset", "location", "best")
