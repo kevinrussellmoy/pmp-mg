@@ -33,15 +33,6 @@ for i = 1:4
     outage_lens(i) = length(ld(t_ind(1):t_ind(2)));
 end
 
-% % Select load and PV data
-% 
-% ld1 = ld(t_ind(1):t_ind(2));
-% pv1 = pv(t_ind(1):t_ind(2));
-% dt1 = yr_dt(t_ind(1):t_ind(2));
-% 
-% % Create variable for outage length (v useful)
-% outage_len = length(ld1);
-
 %% SOCs to try
 SOCs = linspace(x_min, x_max, 27);
 
@@ -114,79 +105,6 @@ for k = 1:4
     L_pcts{k} = fuel_consumps/L_base;
     cap_pcts{k} = cap_losses/Q_nom;
 end
-
-% %% Search for optimal initial costate values
-% lambda_min = -150;
-% lambda_max = -75;
-% disp('Finding optimal initial costate values for each value of SOC:')
-% for i = 1:length(SOCs)
-%     disp(['Iteration ', num2str(i)])
-%     [s_init_vec, SOC_end_vec] = init_costate_search(length(ld1), pv1, ld1, x_max, x_min, ...
-%                 LIB_INV_SIZE_KW, LIB_EFF_CHG, ...
-%                 socdot, P_batt_range_socdot, SOC_range_socdot, ...
-%                 dfdx, P_batt_range_dfdx, SOC_range_dfdx, ...
-%                 h, lambda_min, lambda_max, SOCs(i));
-% 
-%     SOC_fins(i) = SOC_end_vec(end);
-%     lambda_inits(i) = s_init_vec(end);
-%     disp(['SOC ', num2str(SOCs(i)), ' Optimal costate value ', num2str(lambda_inits(i)), ' found'])
-% end
-% disp('Done finding optimal initial costate values!')
-% 
-% %% Plot
-% hFig = figure(1);
-% % set(hFig, 'Position', [100 100 920 500])
-% set(hFig, 'Position', [100 100 600 500])
-% hold on
-% plot(SOC_fins, lambda_inits, 'marker','^', 'MarkerSize',15)
-% xlabel("Initial Costate Value [L/hr]")
-% ylabel("Final SOC [-]")
-% set(gca, "FontSize", 28)
-% 
-% %% Find fuel consumption \dot{m_f}(t), LIB power output u(t), and LIB SOC(t) at each optimal initial costate value
-% % TODO: Combine with above so we are not doing redundant calculations
-% disp('Finding optimal fuel consumption, SOC, LIB power from optimal intial costate values:')
-% for i = 1:length(lambda_inits)
-%     disp(['Iteration ', num2str(i)])
-%     [u_opt, x, lambda] = mgpmpecm(length(ld1), pv1, ld1, x_max, x_min, LIB_INV_SIZE_KW, LIB_EFF_CHG, ...
-%     socdot, P_batt_range_socdot, SOC_range_socdot, ...
-%     dfdx, P_batt_range_dfdx, SOC_range_dfdx, ...
-%     h, lambda_inits(i));
-%     dg1 = max(ld1-pv1-u_opt,0);
-%     pv_curt = max(pv1-ld1-u_opt,0);
-%     x_f = x(end);
-%     
-%     u_opts(:,i) = u_opt;
-%     SOC_opts(:,i) = x;
-%     fuel_consumps(i) = sum(genset_model(dg1))*h;
-%     
-% end
-% disp('Done with that.')
-% 
-% % Compute baseline fuel consumption
-% L_base = sum(genset_model(max(ld1-pv1,0)))*h;
-% 
-% %%
-% disp('Finding degradation from optimal SOC trajectories:')
-% for i = 1:length(SOCs)
-%     disp(['Iteration ', num2str(i)])
-%     
-%     %TODO WHY IS THIS IMAGINARY??
-%     [cap_loss] = emp_deg_model(SOC_opts(:,i), Q_nom, h);
-%     cap_losses(:,i) = cap_loss;
-% end
-% disp('Done with that.')
-% %% Plot
-% 
-% hFig = figure(2);
-% % set(hFig, 'Position', [100 100 920 500])
-% set(hFig, 'Position', [100 100 600 500])
-% hold on
-% plot(SOCs, cap_losses, 'marker','.', 'MarkerSize',15, 'LineWidth', 2)
-% xlabel("Final SOC [-]")
-% xlim([0.2 0.85])
-% ylabel("Capacity Loss [Ah]")
-% set(gca, "FontSize", 28)
 
 %% Plot Pareto Front
 %indices to plot given restrictions on Andrea's model 

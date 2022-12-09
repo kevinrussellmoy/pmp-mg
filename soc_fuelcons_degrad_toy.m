@@ -33,15 +33,6 @@ for i = 1:3
     outage_lens(i) = length(ld(t_ind(1):t_ind(2)));
 end
 
-% % Select load and PV data
-% 
-% ld1 = ld(t_ind(1):t_ind(2));
-% pv1 = pv(t_ind(1):t_ind(2));
-% dt1 = yr_dt(t_ind(1):t_ind(2));
-% 
-% % Create variable for outage length (v useful)
-% outage_len = length(ld1);
-
 %% SOCs to try
 SOCs = linspace(x_min, x_max, 27);
 
